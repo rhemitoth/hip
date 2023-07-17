@@ -18,19 +18,7 @@ library(ggpubr)
 
 #source("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/issa_all.R")
 
-plot_theme <- theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
-                    axis.title.x = element_text(face = "bold",size = 20, color = "grey15"),
-                    axis.title.y = element_text(face = "bold",size = 23, color = "grey15"),
-                    axis.text = element_text(size = 23),
-                    legend.title = element_text(face = "bold", size = 23),
-                    legend.text = element_text(size = 23),
-                    plot.title = element_text(face = "bold", size = 26, hjust = 0.5),
-                    plot.background = element_rect(fill='transparent', color=NA),
-                    panel.grid.major = element_blank(), #remove major gridlines
-                    panel.grid.minor = element_blank(), #remove minor gridlines
-                    panel.background = element_rect(fill = "#fefae0"),
-                    legend.key = element_rect(colour = NA, fill = NA),
-                    legend.background = element_rect(fill = "#fefae0"))
+source("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/scripts/plots/theme.R")
 
 Fluffy_issa_for_plot <- Fluffy_issa %>%
   mutate(distEdge_start = NA,

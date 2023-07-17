@@ -4,7 +4,7 @@
 library(scales)
 
 #source("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/scripts/sensitivity_test/issa/issa_all.R")
-
+source("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/scripts/plots/theme.R")
 #All Lions Dataset----
 #Combined dataset
 Fluffy_issa_all <- Fluffy_issa %>%
@@ -48,26 +48,6 @@ all_data <- all_data %>%
                                                                                             ifelse(id == "SAT1382 Ntombi", sl_/all_data_sum$maxSL[12],
                                                                                                    ifelse(id == "SAT1383 Roxy", sl_/all_data_sum$maxSL[13],
                                                                                                           ifelse(id == "SAT1679 Madonna", sl_/all_data_sum$maxSL[14],1)))))))))))))))
-#Plot Theme----
-plot_theme <- theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
-                    axis.title.x = element_text(face = "bold",size = 20, color = "grey15"),
-                    axis.title.y = element_text(face = "bold",size = 23, color = "grey15"),
-                    axis.text = element_text(size = 23),
-                    legend.title = element_text(face = "bold", size = 23),
-                    legend.text = element_text(size = 23),
-                    plot.title = element_text(face = "bold", size = 26, hjust = 0.5),
-                    plot.subtitle = element_text(size = 20, hjust = 0),
-                    panel.grid.major = element_blank(), #remove major gridlines
-                    panel.grid.minor = element_blank(), #remove minor gridlines,
-                    legend.key = element_rect(colour = NA, fill = NA))
-
-#Plot Params----
-male_clr <- "cornflowerblue"
-female_clr <- "tan1"
-
-pnt_size <- 3
-pnt_w <- 1
-bar_w <- 0.4
 
 folder <- "/Users/rhemitoth/Documents/Lion_Movement/Manuscript/Figures/Core_Model/"
 

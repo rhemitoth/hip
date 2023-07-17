@@ -113,10 +113,43 @@ for (i in 1:numfiles){
 
 #Lion encounter risk----
 
+#****Normalized distEdge----
 directory <- "/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/data_processed/Normalized_Distance_to_Edge"
 files <- list.files(directory, pattern = "tif")
 numfiles <- length(files)
-distEdges <- c()
+
+for (i in 1:numfiles){
+  file_path <- paste(directory,"/",files[i],sep = "")
+  #Reading in raster
+  dat <- raster(file_path)
+  #Assigning raster to variable and storing it in a dictionary
+  var_name1 <- files[i]
+  var_name2 <- paste(str_replace(var_name1,".tif",""))
+  var_name3 <- paste(var_name2,"_NormDistEdge",sep="")
+  assign(var_name3, dat)
+}
+
+#Dictionary used to call variable when fitting issa
+NormDistEdges <- c("Babe" = Babe_NormDistEdge,
+               "Fanbelt" = Fanbelt_NormDistEdge,
+               "iHlane" = iHlane_NormDistEdge,
+               "Koku" = Koku_NormDistEdge,
+               "Madonna" = Madonna_NormDistEdge,
+               "Mellon" = Mellon_NormDistEdge,
+               "Murph" = Murph_NormDistEdge,
+               "Ntombi" = Ntombi_NormDistEdge,
+               "PokeJr" = PokeJr_NormDistEdge,
+               "Roxy" = Roxy_NormDistEdge,
+               "Stud" = Stud_NormDistEdge,
+               "Thembi" = Thembi_NormDistEdge,
+               "Zulu" = Zulu_NormDistEdge)
+
+#****distEdge
+
+directory <- "/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/data_processed/Distance_to_HR_Edge"
+files <- list.files(directory, pattern = "tif")
+numfiles <- length(files)
+
 for (i in 1:numfiles){
   file_path <- paste(directory,"/",files[i],sep = "")
   #Reading in raster
@@ -130,19 +163,18 @@ for (i in 1:numfiles){
 
 #Dictionary used to call variable when fitting issa
 distEdges <- c("Babe" = Babe_distEdge,
-               "Fanbelt" = Fanbelt_distEdge,
-               "iHlane" = iHlane_distEdge,
-               "Koku" = Koku_distEdge,
-               "Madonna" = Madonna_distEdge,
-               "Mellon" = Mellon_distEdge,
-               "Murph" = Murph_distEdge,
-               "Ntombi" = Ntombi_distEdge,
-               "PokeJr" = PokeJr_distEdge,
-               "Roxy" = Roxy_distEdge,
-               "Stud" = Stud_distEdge,
-               "Thembi" = Thembi_distEdge,
-               "Zulu" = Zulu_distEdge)
-
+                   "Fanbelt" = Fanbelt_distEdge,
+                   "iHlane" = iHlane_distEdge,
+                   "Koku" = Koku_distEdge,
+                   "Madonna" = Madonna_distEdge,
+                   "Mellon" = Mellon_distEdge,
+                   "Murph" = Murph_distEdge,
+                   "Ntombi" = Ntombi_distEdge,
+                   "PokeJr" = PokeJr_distEdge,
+                   "Roxy" = Roxy_distEdge,
+                   "Stud" = Stud_distEdge,
+                   "Thembi" = Thembi_distEdge,
+                   "Zulu" = Zulu_distEdge)
 #Lion Home Ranges----
 babe_hr <- shapefile("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/data_processed/AKDE_100_raster_to_poly/Babe.shp")
 fanbelt_hr <- shapefile("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/data_processed/AKDE_100_raster_to_poly/Fanbelt.shp")

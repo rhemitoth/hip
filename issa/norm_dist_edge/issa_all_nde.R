@@ -51,24 +51,24 @@ numlions <- length(lions)
 #Fitting models for each lion----
 
 
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Babe_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/iHlane_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/PokeJr_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Ntombi_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Thembi_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Madonna_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Roxy_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Zulu_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Koku_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Murph_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Fluffy_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Mellon_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Stud_issa.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Fanbelt_issa.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Babe_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/iHlane_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/PokeJr_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Ntombi_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Thembi_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Madonna_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Roxy_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Zulu_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Koku_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Murph_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Fluffy_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Mellon_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Stud_issa_nde.R")
+source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa/Fanbelt_issa_nde.R")
 
 #All Lion AIC Table
 
-directory <- "/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/Model_Competition"
+directory <- "/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/Model_Competition_nde"
 files <- list.files(directory, pattern = "csv")
 numfiles <- length(files)
 
@@ -108,7 +108,7 @@ aic_pivot <- lion_aics%>%
 aic_plot <- ggplot(data = lion_aics, aes(x = lion, y = AIC, color = Model))+
   geom_point()
 write.csv(aic_pivot,
-          file = "/Users/rhemitoth/Documents/Lion_Movement/Results/AICS.csv",
+          file = "/Users/rhemitoth/Documents/Lion_Movement/Results/AICS_nde.csv",
           col.names = FALSE)
 # winning_models <- rbind(Babe_winner%>%as.data.frame(),
 #                         iHlane_winner%>%as.data.frame(),
@@ -345,4 +345,4 @@ vifs_pivot <- as.data.frame(vifs_all)%>%
   )
 
 write.csv(x = vifs_pivot,
-          file = "/Users/rhemitoth/Documents/Lion_Movement/Results/vifs.csv")
+          file = "/Users/rhemitoth/Documents/Lion_Movement/Results/vifs_nde.csv")

@@ -101,17 +101,19 @@ xy.random.df <- data.frame(x = double(),
                            ks_id = character(),
                            fold = double())
 
+nrand <- 10
+
 for (i in 1:length(xy.obs$X)){
   id <- xy.obs$ks_id[i]
   buff <- ks_buffer[ks_buffer$Code == id,]
   f <- xy.obs$fold[i]
   print(id)
   rand_pt <- spsample(buff,
-                      n = 20,
+                      n = nrand,
                       "random",
                       iter = 10)
   rand_pt_df <- as.data.frame(rand_pt)
-  rand_pt_df$ID <- seq(1,20,1)
+  rand_pt_df$ID <- seq(1,nrand,1)
   rand_pt_df$ks_id <- id
   rand_pt_df$fold <- f
 
@@ -210,8 +212,6 @@ names(hab) <- c("slope", "veg1m")
 
 
 #RSF Prediction Map
-data.rsf <- read_csv("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/data_processed/issa_inputs/PreyCatchability.csv")
-data.rsf <- data.rsf[,-1]
 pc_map <- terra::predict(object = hab, model = RSF1.fit, type = "response")
 names(pc_map) <- "PreyCatchability"
 
@@ -221,6 +221,7 @@ writeRaster(pc_map, "/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/da
             format = "GTiff",
             overwrite = TRUE)
 
+plot(pc_map %>% mask(hip), col = pal2)
 summary(RSF1.fit)
 
-plot(pc_map)
+

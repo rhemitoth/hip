@@ -26,7 +26,7 @@ library(geosphere)
 ## ****************************************************
 
 #source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/data_processing.R")
-source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa_covs.R")
+#source("~/Documents/Lion_Movement/R/hip_lion_issa/scripts/issa_covs.R")
 
 #Loading processed lion GPS data----
 #Looping through csv files and importing them as a batch
@@ -213,6 +213,11 @@ for(i in 1:numlions){
     names(d) <- "distEdge"
     dat$distEdge_start <- raster::extract(d, start)
     dat$distEdge_end <- raster::extract(d, end)
+
+    nd <- NormDistEdges[[lion_name]]
+    names(nd) <- "NormDistEdge"
+    dat$NormDistEdge_start <- raster::extract(nd, start)
+    dat$NormDistEdge_end <- raster::extract(nd,end)
   }
   print(lion_name)
   print("Count NAs")
@@ -224,6 +229,8 @@ for(i in 1:numlions){
   if(lion_name != "Fluffy"){
     print(sum(is.na(dat$distEdge_start)))
     print(sum(is.na(dat$distEdge_end)))
+    print(sum(is.na(dat$NormDistEdge_start)))
+    print(sum(is.na(dat$NormDistEdge_end)))
   }
   assign(paste(toString(lion_name),"issa",sep="_"),dat)
 }
@@ -269,9 +276,9 @@ for(i in 1:numlions){
     date <- names(ndvi_images)[j]
 
     if(lion_name == "Fluffy"){
-      col_index <- 27 + (j-1)
-    }else{
       col_index <- 29 + (j-1)
+    }else{
+      col_index <- 31 + (j-1)
     }
 
     dat <- dat %>%
@@ -283,9 +290,9 @@ for(i in 1:numlions){
   }
 
   if(lion_name == "Fluffy"){
-    dat <- dat[,1:26]
-  }else{
     dat <- dat[,1:28]
+  }else{
+    dat <- dat[,1:30]
   }
 
   assign(toString(lion_name),dat)

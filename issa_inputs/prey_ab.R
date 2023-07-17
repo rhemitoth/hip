@@ -243,4 +243,12 @@ RSF10.fit <- glm(Used ~ veg1m + slope + ndvi,
                  data = data.rsf,
                  family = binomial(link = "logit"))
 
+
+
+names(ndvi_20140823) <- "ndvi"
+names(veg1m) <- "veg1m"
+names(slope) <- "slope"
+hab <- stack(veg1m, slope, ndvi_20140823)
+pa_map <- terra::predict(object = hab, model = RSF10.fit, type = "response")
+plot(pa_map%>%mask(hip), col = pal2)
 summary(RSF10.fit)
