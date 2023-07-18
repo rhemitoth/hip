@@ -2,6 +2,7 @@
 
 
 library(scales)
+library(tidyverse)
 
 #source("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/scripts/sensitivity_test/issa/issa_all.R")
 source("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/scripts/plots/theme.R")
@@ -9,7 +10,9 @@ source("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/scripts/plots/t
 #Combined dataset
 Fluffy_issa_all <- Fluffy_issa %>%
   mutate(distEdge_start = 0.001,
-         distEdge_end = 0.001)
+         distEdge_end = 0.001,
+         NormDistEdge_start = 0.001,
+         NormDistEdge_end = 0.001)
 
 all_data <- rbind(Babe_issa,
                   iHlane_issa,
@@ -28,7 +31,7 @@ all_data <- rbind(Babe_issa,
 
 all_data_sum <- all_data%>%
   group_by(id)%>%
-  summarize(minSL = min(sl_),
+  summarise(minSL = min(sl_),
                           maxSL = max(sl_))%>%
   arrange(id)
 
@@ -57,7 +60,7 @@ cosTA_ToD <- core_coefs %>%
   filter(Variable == "cos_ta_:tod_start_night")
 
 cosTA_ToD_sum <- cosTA_ToD %>%
-  summarize(avg = mean(Beta$coef),
+  summarise(avg = mean(Beta$coef),
             sd = sd(Beta$coef),
             n = n(),
             se = sd/sqrt(n))
@@ -65,8 +68,8 @@ cosTA_ToD_sum <- cosTA_ToD %>%
 cosTA_ToD_plot <- ggplot(data= cosTA_ToD)+
   geom_point(aes(x = Lion, y = Beta$coef, color = Sex, shape = Significant, fill = Sex), size = pnt_size)+
   geom_errorbar(aes(x = Lion, ymin = Low_CI$coef, ymax = High_CI$coef, color = Sex), width = bar_w, linewidth = pnt_w)+
-  labs(title = "cosTA:ToD Interaction",
-       subtitle = "Reference level is day")+
+  #labs(title = "cosTA:ToD Interaction",
+       #subtitle = "Reference level is day")+
   geom_hline(yintercept = 0, linetype = 2)+
   xlab("Lion ID")+
   ylab("Coefficient")+
@@ -311,3 +314,28 @@ ggsave(filename = filename,
        units = "in")
 
 coplot()
+
+#All Core Coefs Plot----
+
+costa_dat <- core_coefs %>%
+  filter(Variable$Variable == "cos_ta_:tod_start_night"|
+           Variable$Variable == "cos_ta_:Veg1m_start"|
+           Variable$Variable == "Slope_start:cos_ta_")
+
+costa_plot <- ggplot(costa_dat, aes(x = Lion, y = Beta$Coef))+
+  geom_point(aes(x = Lion, y = Beta$coef, color = Sex, shape = Significant, fill = Sex), size = pnt_size)+
+  geom_errorbar(aes(x = Lion, ymin = Low_CI$coef, ymax = High_CI$coef, color = Sex), width = bar_w, linewidth = pnt_w)+
+  facet_wrap(~Variable$Variable)+
+  plot_theme
+
+#Core Model Stats----
+core_stats <- core_coefs %>%
+  group_by(Variable$Variable)%>%
+  summarise(mean = mean(Beta$coef),
+            sd = sd(Beta$coef),
+            n = n())%>%
+  mutate(se = sd/sqrt(n))
+
+write.csv(core_stats, file = "/Users/rhemitoth/Documents/Lion_Movement/Manuscript/Tables/core_model_summary.csv")
+
+

@@ -69,6 +69,7 @@ source("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/scripts/plots/t
 #        units = "in")
 
 #distEdge----
+options(scipen = 999)
 distEdge_betas <- all_lion_coefs %>%
   filter(Variable == "distEdge_end")
 

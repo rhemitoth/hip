@@ -1,5 +1,5 @@
 library(tidyverse)
-
+library()
 #Loading RSF data---
 data.rsf <- read_csv("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/data_processed/issa_inputs/PreyAb_RSF_points.csv")
 data.rsf <- data.rsf[,-1]
@@ -126,18 +126,6 @@ RSF12.fit <- glm(Used ~ veg1.5m + ndviFire,
 #**** AIC ----
 models <- c("RSF1", "RSF2", "RSF3", "RSF4", "RSF5","RSF6","RSF7","RSF8","RSF9","RSF10","RSF11","RSF12")
 
-AICtab(RSF1.fit,
-       RSF2.fit,
-       RSF3.fit,
-       RSF4.fit,
-       RSF5.fit,
-       RSF6.fit,
-       RSF7.fit,
-       RSF8.fit,
-       RSF9.fit,
-       RSF10.fit,
-       RSF11.fit,
-       RSF12.fit)
 
 aic_scores <- AIC(RSF1.fit,
                   RSF2.fit,

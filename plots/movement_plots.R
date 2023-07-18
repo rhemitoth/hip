@@ -47,7 +47,7 @@ all_lions <- rbind(Babe_issa,
 
 all_lions_sum <- all_lions %>%
   group_by(Sex, tod_start_, id)%>%
-  summarize(mean_sl = mean(sl_),
+  summarise(mean_sl = mean(sl_),
             mean_cos_ta = mean(cos_ta_, na.rm = TRUE),
             sd_sl = sd(sl_),
             sd_cos_ta = sd(cos_ta_, na.rm = TRUE),
@@ -62,12 +62,11 @@ all_lions_sum <- all_lions %>%
 
 slope_sl_sum <- all_lions %>%
   group_by(Slope_start, Sex) %>%
-  summarize(mean_sl = mean(sl_))%>%
+  summarise(mean_sl = mean(sl_))%>%
   ungroup()
 
 slope_sl_plot <- ggplot()+
   geom_smooth(data = slope_sl_sum, aes(x = Slope_start, y = mean_sl, color = Sex), method = 'loess')+
-  labs(title = "Mean Movement Rate vs. Slope")+
   xlab("Slope")+
   ylab("Mean Movement Rate (m/hr)")+
   theme_bw()+
@@ -84,7 +83,7 @@ ggsave(filename = filename,
 #Step Length Veg
 veg_sl_sum <- all_lions %>%
   group_by(Veg1m_start, Sex) %>%
-  summarize(mean_sl = mean(sl_))%>%
+  summarise(mean_sl = mean(sl_))%>%
   ungroup()
 
 veg_sl_plot <- ggplot()+
@@ -106,7 +105,7 @@ ggsave(filename = filename,
 #Step lenght Dist Edge----
 distEdge_sl_sum <- all_lions %>%
   group_by(distEdge_start, Sex) %>%
-  summarize(mean_sl = mean(sl_))%>%
+  summarise(mean_sl = mean(sl_))%>%
   ungroup()
 
 distEdge_sl_plot <- ggplot()+
@@ -129,7 +128,7 @@ ggsave(filename = filename,
 #Step Length day night----
 tod_sl_sum <- all_lions %>%
   group_by(tod_start_, Sex) %>%
-  summarize(mean_sl = mean(sl_),
+  summarise(mean_sl = mean(sl_),
             sd = sd(sl_),
             count = n())%>%
   ungroup()%>%
@@ -160,15 +159,15 @@ ggsave(filename = filename,
 
 slope_ta_sum <- all_lions %>%
   group_by(Slope_start, Sex) %>%
-  summarize(mean_ta = mean(cos_ta_))%>%
+  summarise(mean_ta = mean(cos_ta_))%>%
   ungroup()
 
 slope_ta_plot <- ggplot()+
   geom_smooth(data = slope_ta_sum, aes(x = Slope_start, y = mean_ta, color = Sex), method = 'loess')+
+  scale_color_manual(values = c(male_clr,female_clr))+
   geom_hline(yintercept = 0, linetype = 2)+
-  labs(title = "Mean Cos(Turing Angle) vs. Slope")+
   xlab("Slope")+
-  ylab("Mean Cos(Turing Angle)")+
+  ylab("Population Mean cosTA")+
   theme_bw()+
   plot_theme
 
@@ -189,10 +188,10 @@ veg_ta_sum <- all_lions %>%
 
 veg_ta_plot <- ggplot()+
   geom_smooth(data = veg_ta_sum, aes(x = Veg1m_start, y = mean_ta, color = Sex), method = 'loess')+
+  scale_color_manual(values = c(male_clr,female_clr))+
   geom_hline(yintercept = 0, linetype = 2)+
-  labs(title = "Mean Cos(Turning Angle) vs. Vegetation")+
-  xlab("Percent Cover at 1m")+
-  ylab("Mean Cos(Turning Angle)")+
+  xlab("PCV1")+
+  ylab("Population Mean cosTA")+
   theme_bw()+
   plot_theme
 
@@ -208,7 +207,7 @@ ggsave(filename = filename,
 
 distEdge_ta_sum <- all_lions %>%
   group_by(distEdge_start, Sex) %>%
-  summarize(mean_ta = mean(cos_ta_))%>%
+  summarise(mean_ta = mean(cos_ta_))%>%
   ungroup()
 
 distEdge_ta_plot <- ggplot()+
@@ -232,7 +231,7 @@ ggsave(filename = filename,
 #tod turning angle----
 tod_ta_sum <- all_lions %>%
   group_by(tod_start_, Sex) %>%
-  summarize(mean_ta = mean(cos_ta_, na.rm = TRUE),
+  summarise(mean_ta = mean(cos_ta_, na.rm = TRUE),
             sd = sd(cos_ta_ ,na.rm = TRUE),
             count = n())%>%
   ungroup()%>%
@@ -244,10 +243,9 @@ tod_ta_plot <- ggplot(tod_ta_sum, aes(fill = tod_start_))+
   geom_bar(aes(x = Sex, y = mean_ta), stat = "identity", position = "dodge")+
   geom_errorbar(position = position_dodge(0.9),
                 aes(x = Sex, ymin = lowCI, ymax = highCI), width = 0.2, size = 1)+
-  labs(title = "Mean Cos(Turning Angle) during the Day and Night")+
   xlab("Sex")+
-  ylab("Mean Cos(Turning Angle)")+
-  scale_fill_manual(values = c("#F2AD00","#7294D4"), name = "Time of Day")+
+  ylab("Population Mean CosTA")+
+  scale_fill_manual(values = c("steelblue1","navy"), name = "Time of Day", labels = c("Day", "Night"))+
   theme_bw()+
   plot_theme
 
@@ -301,3 +299,15 @@ ggsave(filename = filename,
        height = 10,
        units = "in")
 
+
+#Turning Angle Plot----
+
+ta_plot <- ggarrange(slope_ta_plot,veg_ta_plot,tod_ta_plot,
+                     labels = c("A","B","C"))
+filename <- paste("/Users/rhemitoth/Documents/Lion_Movement/Manuscript/Figures/Core_Model/Turning_Angles.png")
+ggsave(filename = filename,
+       device = "png",
+       plot = ta_plot,
+       width = 10,
+       height = 10,
+       units = "in")
