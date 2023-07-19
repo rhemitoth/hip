@@ -27,7 +27,8 @@ all_data <- rbind(Babe_issa,
                   Fluffy_issa_all,
                   Mellon_issa,
                   Stud_issa,
-                  Fanbelt_issa)
+                  Fanbelt_issa)%>%
+  filter(case_ == TRUE)
 
 all_data_sum <- all_data%>%
   group_by(id)%>%

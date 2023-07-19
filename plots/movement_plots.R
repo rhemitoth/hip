@@ -22,10 +22,13 @@ source("/Users/rhemitoth/Documents/Lion_Movement/R/hip_lion_issa/scripts/plots/t
 
 Fluffy_issa_for_plot <- Fluffy_issa %>%
   mutate(distEdge_start = NA,
-         distEdge_end = NA)
+         distEdge_end = NA,
+         NormDistEdge_start = NA,
+         NormDistEdge_end = NA)
 
 all_lions <- rbind(Babe_issa,
                    Fanbelt_issa,
+                   Fluffy_issa_for_plot,
                    iHlane_issa,
                    Koku_issa,
                    Madonna_issa,
@@ -61,14 +64,16 @@ all_lions_sum <- all_lions %>%
 #StepLengths Slope----
 
 slope_sl_sum <- all_lions %>%
+  filter(Slope_start < 33.46738)%>%
   group_by(Slope_start, Sex) %>%
   summarise(mean_sl = mean(sl_))%>%
   ungroup()
 
 slope_sl_plot <- ggplot()+
   geom_smooth(data = slope_sl_sum, aes(x = Slope_start, y = mean_sl, color = Sex), method = 'loess')+
+  scale_color_manual(values = c(female_clr,male_clr))+
   xlab("Slope")+
-  ylab("Mean Movement Rate (m/hr)")+
+  ylab("Mean Step Length (m/hr)")+
   theme_bw()+
   plot_theme
 
@@ -88,9 +93,9 @@ veg_sl_sum <- all_lions %>%
 
 veg_sl_plot <- ggplot()+
   geom_smooth(data = veg_sl_sum, aes(x = Veg1m_start, y = mean_sl, color = Sex), method = 'loess')+
-  labs(title = "Mean Movement Rate vs. Vegetation")+
-  xlab("Percent Cover at 1m")+
-  ylab("Mean Movement Rate (m/hr)")+
+  scale_color_manual(values = c(female_clr, male_clr))+
+  xlab("PCV1")+
+  ylab("Mean Step Length (m/hr)")+
   theme_bw()+
   plot_theme
 
@@ -139,11 +144,10 @@ tod_sl_sum <- all_lions %>%
 tod_sl_plot <- ggplot(tod_sl_sum, aes(fill = tod_start_))+
   geom_bar(aes(x = Sex, y = mean_sl), stat = "identity", position = "dodge")+
   geom_errorbar(position = position_dodge(0.9),
-                aes(x = Sex, ymin = lowCI, ymax = highCI), width = 0.2, size = 1)+
-  labs(title = "Mean Movement Rate during the Day and Night")+
+                aes(x = Sex, ymin = lowCI, ymax = highCI), width = 0.2, size = 0.5)+
   xlab("Sex")+
-  ylab("Mean Movement Rate (m/hr)")+
-  scale_fill_manual(values = c("#F2AD00","#7294D4"), name = "Time of Day")+
+  ylab("Mean Step Length (m/hr)")+
+  scale_fill_manual(values = c(day_clr,night_clr), name = "Time of Day")+
   theme_bw()+
   plot_theme
 
@@ -158,6 +162,7 @@ ggsave(filename = filename,
 #Turing Angle Slope----
 
 slope_ta_sum <- all_lions %>%
+  filter(Slope_start < 33.46738)%>%
   group_by(Slope_start, Sex) %>%
   summarise(mean_ta = mean(cos_ta_))%>%
   ungroup()
@@ -188,7 +193,7 @@ veg_ta_sum <- all_lions %>%
 
 veg_ta_plot <- ggplot()+
   geom_smooth(data = veg_ta_sum, aes(x = Veg1m_start, y = mean_ta, color = Sex), method = 'loess')+
-  scale_color_manual(values = c(male_clr,female_clr))+
+  scale_color_manual(values = c(female_clr, male_clr))+
   geom_hline(yintercept = 0, linetype = 2)+
   xlab("PCV1")+
   ylab("Population Mean cosTA")+
@@ -245,7 +250,7 @@ tod_ta_plot <- ggplot(tod_ta_sum, aes(fill = tod_start_))+
                 aes(x = Sex, ymin = lowCI, ymax = highCI), width = 0.2, size = 1)+
   xlab("Sex")+
   ylab("Population Mean CosTA")+
-  scale_fill_manual(values = c("steelblue1","navy"), name = "Time of Day", labels = c("Day", "Night"))+
+  scale_fill_manual(values = c(day_clr, night_clr), name = "Time of Day", labels = c("Day", "Night"))+
   theme_bw()+
   plot_theme
 
@@ -303,7 +308,7 @@ ggsave(filename = filename,
 #Turning Angle Plot----
 
 ta_plot <- ggarrange(slope_ta_plot,veg_ta_plot,tod_ta_plot,
-                     labels = c("A","B","C"))
+                     labels = c("A)","B)","C)"))
 filename <- paste("/Users/rhemitoth/Documents/Lion_Movement/Manuscript/Figures/Core_Model/Turning_Angles.png")
 ggsave(filename = filename,
        device = "png",
@@ -311,3 +316,16 @@ ggsave(filename = filename,
        width = 10,
        height = 10,
        units = "in")
+
+
+#Step Length Plot----
+ta_plot <- ggarrange(slope_sl_plot,veg_sl_plot,tod_sl_plot,
+                     labels = c("A)","B)","C)"))
+filename <- paste("/Users/rhemitoth/Documents/Lion_Movement/Manuscript/Figures/Core_Model/Step_Lengths.png")
+ggsave(filename = filename,
+       device = "png",
+       plot = ta_plot,
+       width = 10,
+       height = 10,
+       units = "in")
+
